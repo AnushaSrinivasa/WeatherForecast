@@ -56,7 +56,7 @@ const useForecast = () => {
             const weatherData = await getWeather(locationId);
             setLoading(false)
             weatherData.consolidated_weather.length = numOfDays;
-            return weatherData.consolidated_weather;
+            return weatherData;
         } else {
             setFailure(true);
             return;
