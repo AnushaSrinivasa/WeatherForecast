@@ -34,7 +34,9 @@ function WeatherForeCast() {
           {forecastData && forecastData.map(weatherPerDay => {
               return (
                 <div className='col' key={weatherPerDay.id}>
-                  <h4>{weatherPerDay.weather_state_name}</h4>
+                  <h5>{weatherPerDay.weather_state_name}</h5>
+                  <small>{weatherPerDay.applicable_date}</small>
+                  <br/>
                   <img src={require(`./images/${weatherPerDay.weather_state_abbr}.jpg`).default}/>
                 </div>
               )
