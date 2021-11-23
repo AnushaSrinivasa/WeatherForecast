@@ -10,9 +10,13 @@ function WeatherForeCast() {
   const [forecastData, setForecastdata] = useState([]);
   const {isLoading, getWeatherData} = useForecast();
 
+  /**
+   * On click of search, this function will call getWeatherData from customHooks to get API data
+   * @param {String} searchTextLocation 
+   * @param {Number} numOfDays 
+   */
   const onLocationSearch = async (searchTextLocation, numOfDays) => {
     const weather = await getWeatherData(searchTextLocation, numOfDays);
-    console.log(weather);
     if(weather) {
       setForecastdata(weather);
     }     

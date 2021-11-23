@@ -8,6 +8,11 @@ const useForecast = () => {
     const [isFailure, setFailure] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
+    /**
+     * Fuction gets weather based on location id
+     * @param {number} locationId 
+     * @returns weather object
+     */
     const getWeather = async (locationId) => {
         const weatherData =  await axios(`${CROSS_DOMAIN}/${BASE_URL}/${locationId}`);
         if(weatherData.status === 200) {
@@ -17,6 +22,11 @@ const useForecast = () => {
         }
     }
 
+    /**
+     * Function search location id needed by API
+     * @param {String} searchTextLocation 
+     * @returns location id
+     */
     const getLocationId = async (searchTextLocation) => {
         const response = await axios(`${CROSS_DOMAIN}/${BASE_URL}/search`, {params: { query: searchTextLocation }});
         if(response.data.length > 0){
@@ -30,6 +40,12 @@ const useForecast = () => {
         }        
     }
 
+    /**
+     * Function gets location id to get weather based on searched location
+     * @param {String} searchTextLocation 
+     * @param {Number} numOfDays 
+     * @returns weather arry
+     */
     const getWeatherData = async (searchTextLocation, numOfDays) => {
         setLoading(true);
         //Step1: find location id

@@ -8,6 +8,11 @@ export default function Form({onLocationSearch}) {
     const [isValid, setIsValid] = useState(true);
     const [errorMsg, setErrorMsg] = useState("");
 
+    /**
+     * On Search function validates the input data and set error alert
+     * @param {event} e 
+     * @returns 
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
         if(location === "" || !location) {
