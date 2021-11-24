@@ -1,10 +1,10 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-export default function Form({onLocationSearch, setFormValidation, setFormErrorMsg}) {
+export default function Form({onLocationSearch, setFormValidation, setFormErrorMsg, resetResults}) {
 
     const [location, setLocation] = useState("");
-    const [numOfDays, setNumOfDays] = useState(null);
+    const [numOfDays, setNumOfDays] = useState(0);
     
     /**
      * On Search function validates the input data and set error alert
@@ -27,6 +27,15 @@ export default function Form({onLocationSearch, setFormValidation, setFormErrorM
         }
     }
 
+    /**
+     * Resets form data
+     */
+    const handleReset = () => {
+        setLocation("");
+        setNumOfDays(0);
+        resetResults();
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -42,7 +51,8 @@ export default function Form({onLocationSearch, setFormValidation, setFormErrorM
                     <label htmlFor="dayslimit" className="form-label">Enter number of days (max 6)</label>
                 </div>
                 <br />
-                <button type='submit' onClick={handleSubmit} className='btn btn-primary'>Search</button>
+                <button type='submit' onClick={handleSubmit} className='btn btn-primary'>Search</button>                
+                <button type='button' onClick={handleReset} className='btn btn-primary' style={{marginLeft:"1rem"}}>Reset</button>
             </form>
         </div>
     )
