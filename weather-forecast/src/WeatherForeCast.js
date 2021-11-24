@@ -58,7 +58,7 @@ function WeatherForeCast() {
                     <h6>{weatherPerDay.weather_state_name}</h6>
                     <small>{weatherPerDay.applicable_date}</small>
                     <br/>
-                    <img src={require(`./images/${weatherPerDay.weather_state_abbr}.jpg`).default}/>
+                    <img src={require(`./images/${weatherPerDay.weather_state_abbr}.jpg`).default} width="200rem"/>
                   </div>
                 )
             })}
