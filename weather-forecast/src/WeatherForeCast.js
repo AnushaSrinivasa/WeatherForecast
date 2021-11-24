@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import './App.css';
-//import DisplayForecast from './controls/DisplayForecast';
+import './WeatherForeCast.css';
+import ErrorDisplay from './controls/ErrorDisplay';
 import Form from './controls/Form';
 import useForecast from './customHooks/useForecast';
 import defaultBackground from './images/default.jpg';
@@ -8,8 +8,11 @@ import defaultBackground from './images/default.jpg';
 function WeatherForeCast() {
 
   const [forecastData, setForecastdata] = useState([]);
-  const {isLoading, getWeatherData} = useForecast();
+  const [isLoading, setLoading] = useState(false);
+  const {getWeatherData} = useForecast();
   const [locationDetails, setLocationDetails] = useState("");
+  const [formValidation, setFormValidation] = useState(true);
+  const [formErrorMsg, setFormErrorMsg] = useState("");
 
   /**
    * On click of search, this function will call getWeatherData from customHooks to get API data
@@ -17,17 +20,27 @@ function WeatherForeCast() {
    * @param {Number} numOfDays 
    */
   const onLocationSearch = async (searchTextLocation, numOfDays) => {
+    setLoading(true);
     const weather = await getWeatherData(searchTextLocation, numOfDays);
+    console.log(weather);
     if(weather) {
+      setLoading(false);
       setLocationDetails(weather.title);
       setForecastdata(weather.consolidated_weather);
-    }     
+    } else {
+      setLoading(false);
+      setFormValidation(false);
+      setFormErrorMsg("Please enter valid location!")
+    }
   }
 
   return (
-    <div className='App' style={{backgroundImage:`url(${defaultBackground})`, backgroundRepeat: 'no-repeat'}}>
+    <div className='App' style={{backgroundImage:`url(${defaultBackground})`}}>
+
+        {!formValidation && <ErrorDisplay errorMsg={formErrorMsg}/>}
+
         <div className="p-5 formDiv">
-          <Form onLocationSearch={onLocationSearch} />
+          <Form onLocationSearch={onLocationSearch} setFormValidation={setFormValidation} setFormErrorMsg={setFormErrorMsg}/>
         </div>
         
         {isLoading ? 
@@ -36,7 +49,7 @@ function WeatherForeCast() {
             <span className="visually-hidden">Loading...</span>
           </div>
         </div> :
-        <div className='border p-4'>
+        <div className='p-4'>
             {locationDetails && <h5>{`Displaying results for ${locationDetails}`}</h5>}
             <div className='row'>
             {forecastData && forecastData.map(weatherPerDay => {

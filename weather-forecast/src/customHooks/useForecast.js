@@ -5,9 +5,6 @@ const BASE_URL = 'https://www.metaweather.com/api/location';
 const CROSS_DOMAIN = 'https://the-ultimate-api-challenge.herokuapp.com';
 
 const useForecast = () => {
-    const [isFailure, setFailure] = useState(false);
-    const [isLoading, setLoading] = useState(false);
-
     /**
      * Fuction gets weather based on location id
      * @param {number} locationId 
@@ -17,9 +14,8 @@ const useForecast = () => {
         const weatherData =  await axios(`${CROSS_DOMAIN}/${BASE_URL}/${locationId}`);
         if(weatherData.status === 200) {
             return weatherData.data;
-        } else {
-            setFailure(true);
         }
+        return;
     }
 
     /**
@@ -34,10 +30,8 @@ const useForecast = () => {
             if(locationData.length > 0 && locationData){
                 return locationData[0].woeid;
             }
-        } else {
-            setFailure(true);
-            return 0;
-        }        
+        } 
+        return 0;       
     }
 
     /**
@@ -47,23 +41,19 @@ const useForecast = () => {
      * @returns weather arry
      */
     const getWeatherData = async (searchTextLocation, numOfDays) => {
-        setLoading(true);
         //Step1: find location id
         const locationId = await getLocationId(searchTextLocation);
         
         //Step2: find weather based on location id
         if(locationId !== 0){
             const weatherData = await getWeather(locationId);
-            setLoading(false)
             weatherData.consolidated_weather.length = numOfDays;
             return weatherData;
-        } else {
-            setFailure(true);
-            return;
-        }
+        } 
+        return;
     }
 
-    return {isFailure, isLoading, getWeatherData};
+    return {getWeatherData};
 }
 
 export default useForecast;

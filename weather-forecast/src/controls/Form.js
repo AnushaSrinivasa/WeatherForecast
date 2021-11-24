@@ -1,13 +1,11 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-export default function Form({onLocationSearch}) {
+export default function Form({onLocationSearch, setFormValidation, setFormErrorMsg}) {
 
     const [location, setLocation] = useState("");
     const [numOfDays, setNumOfDays] = useState(null);
-    const [isValid, setIsValid] = useState(true);
-    const [errorMsg, setErrorMsg] = useState("");
-
+    
     /**
      * On Search function validates the input data and set error alert
      * @param {event} e 
@@ -16,15 +14,15 @@ export default function Form({onLocationSearch}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(location === "" || !location) {
-            setIsValid(false);
-            setErrorMsg("Location is Required!")
+            setFormValidation(false);
+            setFormErrorMsg("Location is Required!")
             return;
         } else if(numOfDays > 6 || numOfDays < 1 | numOfDays === null){
-            setIsValid(false);
-            setErrorMsg("You can only min of 1 and max of 6 days weather forecast!");
+            setFormValidation(false);
+            setFormErrorMsg("Please enter min of 1 and max of 6 days for weather forecast!");
             return;
         } else {
-            setIsValid(true);
+            setFormValidation(true);
             onLocationSearch(location, numOfDays);
         }
     }
@@ -43,8 +41,6 @@ export default function Form({onLocationSearch}) {
                 <br />
                 <button type='submit' onClick={handleSubmit} className='btn btn-primary'>Search</button>
             </form>
-            <br />
-            {!isValid && <div className='alert alert-danger'>{errorMsg}</div>}
         </div>
     )
 }
