@@ -36,8 +36,11 @@ export default function Form({onLocationSearch, setFormValidation, setFormErrorM
                         className="form-control" id="cityFormControl" placeholder="city" required/>
                     <label htmlFor="cityFormControl">Enter the location</label>
                 </div>
-                <input type="number" value={numOfDays} onChange={e=>setNumOfDays(e.target.value)}
-                     className='form-control' id="dayslimit" placeholder="Enter number of days (max 6)" max="6" required/>
+                <div className="form-floating mb-3">
+                    <input type="number" value={numOfDays} onChange={e=>setNumOfDays(e.target.value)}
+                     className='form-control' id="dayslimit" placeholder="Future days" max="6" required/>
+                    <label htmlFor="dayslimit" className="form-label">Enter number of days (max 6)</label>
+                </div>
                 <br />
                 <button type='submit' onClick={handleSubmit} className='btn btn-primary'>Search</button>
             </form>

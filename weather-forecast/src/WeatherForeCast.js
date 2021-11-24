@@ -22,7 +22,6 @@ function WeatherForeCast() {
   const onLocationSearch = async (searchTextLocation, numOfDays) => {
     setLoading(true);
     const weather = await getWeatherData(searchTextLocation, numOfDays);
-    console.log(weather);
     if(weather) {
       setLoading(false);
       setLocationDetails(weather.title);
@@ -50,20 +49,22 @@ function WeatherForeCast() {
           </div>
         </div> :
         <div className='p-4'>
-            {locationDetails && <h5>{`Displaying results for ${locationDetails}`}</h5>}
-            <div className='row'>
-            {forecastData && forecastData.map(weatherPerDay => {
-                return (
-                  <div className='col' key={weatherPerDay.id}>
-                    <h6>{weatherPerDay.weather_state_name}</h6>
-                    <small>{weatherPerDay.applicable_date}</small>
-                    <br/>
-                    <img src={require(`./images/${weatherPerDay.weather_state_abbr}.jpg`).default} width="200rem"/>
-                  </div>
-                )
-            })}
-          </div>
-        </div> }
+          {locationDetails && <h5>{`Displaying results for ${locationDetails}`}</h5>}
+           {forecastData && <div className="border p-4 rounded shadow bg-white">
+                <div className='row'>
+                  {forecastData && forecastData.map(weatherPerDay => {
+                      return (
+                        <div className='col' key={weatherPerDay.id}>
+                          <h6>{weatherPerDay.weather_state_name}</h6>
+                          <small>{weatherPerDay.applicable_date}</small>
+                          <br/>
+                          <img src={require(`./images/${weatherPerDay.weather_state_abbr}.jpg`).default} width="200rem"/>
+                        </div>
+                      )
+                  })}
+              </div>
+           </div>}
+        </div>}
     </div>
   );
 }
