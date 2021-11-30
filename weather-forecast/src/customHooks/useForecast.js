@@ -47,8 +47,11 @@ const useForecast = () => {
         //Step2: find weather based on location id
         if(locationId !== 0){
             const weatherData = await getWeather(locationId);
-            weatherData.consolidated_weather.length = numOfDays;
-            return weatherData;
+            if(weatherData){
+                weatherData.consolidated_weather.length = numOfDays;
+                return weatherData;
+            }
+            return;
         } 
         return;
     }

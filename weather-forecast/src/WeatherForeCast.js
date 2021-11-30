@@ -4,6 +4,8 @@ import ErrorDisplay from './controls/ErrorDisplay';
 import Form from './controls/Form';
 import useForecast from './customHooks/useForecast';
 import defaultBackground from './images/default.jpg';
+import Loading from './controls/Loading';
+import Forecast from './controls/Forecast';
 
 function WeatherForeCast() {
 
@@ -36,6 +38,9 @@ function WeatherForeCast() {
     }
   }
 
+  /**
+   * Resetting the form and clearing results
+   */
   const resetResults = () => {
     setLocationDetails("");
     setForecastdata([]);
@@ -44,35 +49,22 @@ function WeatherForeCast() {
 
   return (
     <div className='App' style={{backgroundImage:`url(${defaultBackground})`}}>
-
+        {/* error message */}
         {!formValidation && <ErrorDisplay errorMsg={formErrorMsg}/>}
 
+        {/* Form */}
         <div className="p-5 formDiv">
           <Form onLocationSearch={onLocationSearch} setFormValidation={setFormValidation} setFormErrorMsg={setFormErrorMsg}
             resetResults={resetResults}/>
         </div>
-        
-        {isLoading ? 
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div> :
+
+        {/* Results */}
+        {isLoading ? <Loading /> :
         <div className='p-4'>
           {locationDetails && <h5>{`Displaying results for ${locationDetails}`}</h5>}
-           {forecastData && <div className={style}>
-                <div className='row'>
-                  {forecastData && forecastData.map(weatherPerDay => {
-                      return (
-                        <div className='col' key={weatherPerDay.id}>
-                          <h6>{weatherPerDay.weather_state_name}</h6>
-                          <small>{weatherPerDay.applicable_date}</small>
-                          <br/>
-                          <img src={require(`./images/${weatherPerDay.weather_state_abbr}.jpg`).default} width="200rem" height="200rem"/>
-                        </div>
-                      )
-                  })}
-              </div>
+           {forecastData && 
+           <div className={style}>
+                <Forecast forecastData={forecastData} />
            </div>}
         </div>}
     </div>
